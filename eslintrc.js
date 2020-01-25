@@ -1,3 +1,5 @@
+const eol = require('os').EOL;
+
 module.exports = {
 	extends: [
 		'airbnb-base',
@@ -63,5 +65,7 @@ module.exports = {
 		'function-paren-newline': ['error', 'consistent'],
 		// Allow param prop reassign
 		'no-param-reassign': ['error', { props: false }],
+		// CRLF line breaks while edited in windows
+		'linebreak-style': ['error', (eol === '\r\n' ? 'windows' : 'unix')],
 	},
 };
