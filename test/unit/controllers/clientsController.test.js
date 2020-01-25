@@ -1,13 +1,13 @@
+/* eslint-disable global-require */
 const chai = require('chai');
 const td = require('testdouble');
-const ClientsController = require('../../../src/controllers/ClientsController');
 
 const { expect } = chai;
 
 describe('clientsController', () => {
-	afterEach = () => {
+	afterEach(() => {
 		td.reset();
-	};
+	});
 
 	it('#get should return clients list', async () => {
 		const clientsList = [
@@ -17,9 +17,8 @@ describe('clientsController', () => {
 		const clientModel = td.replace('../../../src/models/ClientModel');
 		td.when(clientModel.getList()).thenResolve(clientsList);
 
-		const ClientsController = require('../../../src/controllers/ClientsController');
-
-		const getResult = await ClientsController.get();
+		const testedController = require('../../../src/controllers/clientsController');
+		const getResult = await testedController.get();
 
 		expect(getResult)
 			.to.be.an('array')
@@ -30,8 +29,8 @@ describe('clientsController', () => {
 		const clientModel = td.replace('../../../src/models/ClientModel');
 		td.when(clientModel.getOne('some-client-id')).thenResolve({ id: 'some-client-id' });
 
-		const ClientsController = require('../../../src/controllers/ClientsController');
-		const getOneResult = await ClientsController.getOne({ params: { clientId: 'some-client-id' } });
+		const testedController = require('../../../src/controllers/clientsController');
+		const getOneResult = await testedController.getOne({ params: { clientId: 'some-client-id' } });
 
 		expect(getOneResult)
 			.to.be.an('object')
@@ -55,7 +54,8 @@ describe('clientsController', () => {
 		const clientModel = td.replace('../../../src/models/ClientModel');
 		td.when(clientModel.createOne(req.body)).thenResolve({ client: 'client-created' });
 
-		const createOneResult = await ClientsController.createOne(req);
+		const testedController = require('../../../src/controllers/clientsController');
+		const createOneResult = await testedController.createOne(req);
 
 
 		expect(createOneResult)
@@ -68,8 +68,8 @@ describe('clientsController', () => {
 		const clientModel = td.replace('../../../src/models/ClientModel');
 		td.when(clientModel.deleteById('some-client-id')).thenResolve();
 
-		const ClientsController = require('../../../src/controllers/ClientsController');
-		const deleteOneResult = await ClientsController.deleteOne({ params: { clientId: 'some-client-id' } });
+		const testedController = require('../../../src/controllers/clientsController');
+		const deleteOneResult = await testedController.deleteOne({ params: { clientId: 'some-client-id' } });
 
 		expect(deleteOneResult)
 			.to.be.an('object')
