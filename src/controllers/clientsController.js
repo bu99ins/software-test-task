@@ -27,6 +27,15 @@ class clientsController {
 		return client;
 	}
 
+	// PATCH - Update client fields
+	static async updateOne(req) {
+		const { clientId } = req.params;
+
+		await ClientModel.updateOne(clientId, req.body);
+
+		return { message: 'success' };
+	}
+
 	// DELETE - Delete a client
 	static async deleteOne(req) {
 		const { clientId } = req.params;
