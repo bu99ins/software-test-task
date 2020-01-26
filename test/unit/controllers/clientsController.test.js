@@ -66,6 +66,28 @@ describe('clientsController', () => {
 			.that.is.an('string');
 	});
 
+	it('#updateOne should return success', async () => {
+		const req = {
+			params: { clientId: 'some-client-id' },
+			body: {
+				firstname: 'John',
+				surname: 'Doe',
+			},
+		};
+
+		const clientModel = td.replace('../../../src/models/ClientModel');
+		td.when(clientModel.updateOne('some-client-id', req.body)).thenResolve();
+
+		const testedController = require('../../../src/controllers/clientsController');
+		const updateOneResult = await testedController.updateOne(req);
+
+		expect(updateOneResult)
+			.to.be.an('object')
+			.and.has.property('message')
+			.that.is.an('string')
+			.that.equals('success');
+	});
+
 	it('#deleteOne should return success', async () => {
 		const clientModel = td.replace('../../../src/models/ClientModel');
 		td.when(clientModel.deleteById('some-client-id')).thenResolve();
