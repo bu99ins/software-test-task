@@ -52,11 +52,13 @@ describe('clientsController', () => {
 			.thenReturn({ valid: true });
 
 		const clientModel = td.replace('../../../src/models/ClientModel');
-		td.when(clientModel.createOne(req.body)).thenResolve({ client: 'client-created' });
+		td.when(clientModel.hashClient(req.body))
+			.thenReturn('test-record-#');
+		td.when(clientModel.createOne(req.body, 'test-record-#'))
+			.thenResolve({ client: 'client-created' });
 
 		const testedController = require('../../../src/controllers/clientsController');
 		const createOneResult = await testedController.createOne(req);
-
 
 		expect(createOneResult)
 			.to.be.an('object')

@@ -20,8 +20,10 @@ class clientsController {
 
 		const payloadHash = ClientModel.hashClient(req.body);
 		if (cacher.isCached(payloadHash)) return cacher.getCached(payloadHash);
+
 		const client = await ClientModel.createOne(req.body, payloadHash);
-		await cacher.cacheAdd(payloadHash, client);
+		cacher.cacheAdd(payloadHash, client);
+
 		return client;
 	}
 
