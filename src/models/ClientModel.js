@@ -21,6 +21,14 @@ class ClientModel {
 		});
 	}
 
+	// Update client
+	static async updateOne(clientId, patch) {
+		return db.none(queries.clients.updateOne, {
+			clientId,
+			...patch,
+		});
+	}
+
 	// Delete Client by id
 	static async deleteById(clientId) {
 		return db.none(queries.clients.deleteOne, { clientId });
