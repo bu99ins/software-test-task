@@ -29,8 +29,9 @@ class clientsController {
 
 	// PATCH - Update client fields
 	static async updateOne(req) {
-		const { clientId } = req.params;
+		await validator.validate('PatchModel', req.body);
 
+		const { clientId } = req.params;
 		await ClientModel.updateOne(clientId, req.body);
 
 		return { message: 'success' };
