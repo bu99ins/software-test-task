@@ -23,10 +23,15 @@ class ClientModel {
 
 	// Update client
 	static async updateOne(clientId, patch) {
-		return db.none(queries.clients.updateOne, {
-			clientId,
-			...patch,
-		});
+		const sqlParams = ['firstname', 'surname'];
+		const client = await db.one(queries.clients.getOne, { clientId });
+
+		const params = sqlParams.reduce((pObj, propName) => {
+			pObj[propName] = patch[propName] || client[propName];
+			return pObj;
+		}, { clientId });
+
+		return db.none(queries.clients.updateOne, params);
 	}
 
 	// Delete Client by id
